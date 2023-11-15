@@ -31,6 +31,10 @@ const generateAASA = () => {
   app.get('/dashboard', (req, res) => {
     res.send('Welcome to the dashboard!');
   });
+
+  app.get('/', (req, res) => {
+    res.send('Hello world');
+  });
   
   app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
