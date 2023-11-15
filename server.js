@@ -13,7 +13,9 @@ const generateAASA = () => {
         details: [
           {
             appID: `7PGNU69TNW.com.mamsb.myahb.innov`,
-            paths: ["/dashboard/*"]
+            paths: [
+                "*"
+            ]
           }
         ]
       }
