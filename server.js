@@ -13,7 +13,27 @@ const generateAASA = () => {
       details: [
         {
           appID: `7PGNU69TNW.com.mamsb.myahb.innov`,
-          paths: ["*"],
+          components: [
+            {
+              "/": "/dashboard/*",
+
+              comment: "Matches any URL whose path starts with /dashboard/",
+            },
+            {
+              "/": "/investmentTransaction/*",
+
+              comment:
+                "Matches any URL whose path starts with /investmentTransaction/",
+            },
+            {
+              "/": "/help/*",
+
+              "?": { articleNumber: "????" },
+
+              comment:
+                "Matches any URL whose path starts with /help/ and which has a query item with name 'articleNumber' and a value of exactly 4 characters",
+            },
+          ],
         },
       ],
     },
