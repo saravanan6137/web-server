@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const getSmartBanner = require("./SmartBanner");
+// const getSmartBanner = require('./SmartBanner');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,7 +30,6 @@ app.get("/.well-known/apple-app-site-association", (req, res) => {
 
 // Serve the /dashboard route
 app.get("/dashboard", (req, res) => {
-  const smartBanner = getSmartBanner();
   const userAgent = req.headers['user-agent'];
   const isIOS = /iPhone|iPad/.test(userAgent);
   console.log('jbdaj', isIOS)
@@ -38,12 +37,10 @@ app.get("/dashboard", (req, res) => {
   res.send(`
     <html>
       <head>
-        <!-- Include other head elements as needed -->
-        ${smartBanner(isIOS)}
+      <meta name="apple-itunes-app" content="app-id=1581543726">
       </head>
       <body>
         <h1>Welcome to the dashboard!</h1>
-        <!-- Include other body elements as needed -->
       </body>
     </html>
   `);
