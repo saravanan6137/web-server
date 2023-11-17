@@ -5,6 +5,7 @@ const path = require("path");
 const getBanner = require("./SmartBanner");
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, "/")));
 
 const generateAASA = () => {
   return {
@@ -47,6 +48,10 @@ app.get("/.well-known/apple-app-site-association", (req, res) => {
   res.send(aasaContent);
 });
 
+app.get("/.well-known/assetlinks.json", (req, res) => {
+  res.sendFile(path.join(__dirname, "/assetlinks.json"));
+});
+
 // Serve the /dashboard route
 app.get("/dashboard", (req, res) => {
   const userAgent = req.headers["user-agent"];
@@ -75,17 +80,17 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/help", (req, res) => {
-    const userAgent = req.headers["user-agent"];
-    const isIOS = /iPhone|iPad/.test(userAgent);
-    console.log("jbdaj", isIOS);
-    const banner = getBanner(
-      "MyAhb",
-      "The myAHB Mobile App is the official mobile app by Maybank Asset Management Sdn Bhd, who is fully owned by Maybank Asset Management Group. The mobile app allows its users to safely and conveniently access and view their AHB investment portfolio all in one app on their mobile/tablet devices. The app is only applicable to Maybank AHB account holders.",
-      "app-icon.png",
-      "https://apple.co/47zd5Xj"
-    );
-    // Send the dashboard with the smart banner
-    res.send(`
+  const userAgent = req.headers["user-agent"];
+  const isIOS = /iPhone|iPad/.test(userAgent);
+  console.log("jbdaj", isIOS);
+  const banner = getBanner(
+    "MyAhb",
+    "The myAHB Mobile App is the official mobile app by Maybank Asset Management Sdn Bhd, who is fully owned by Maybank Asset Management Group. The mobile app allows its users to safely and conveniently access and view their AHB investment portfolio all in one app on their mobile/tablet devices. The app is only applicable to Maybank AHB account holders.",
+    "app-icon.png",
+    "https://apple.co/47zd5Xj"
+  );
+  // Send the dashboard with the smart banner
+  res.send(`
     <html>
     <head>
       <title>Your App Name</title>
@@ -98,19 +103,30 @@ app.get("/help", (req, res) => {
     </body>
   </html>
     `);
-  });
+});
 
-  app.get("/investmentTransaction", (req, res) => {
-    const userAgent = req.headers["user-agent"];
-    const isIOS = /iPhone|iPad/.test(userAgent);
-    const banner = getBanner(
+app.get("/investmentTransaction", (req, res) => {
+  const userAgent = req.headers["user-agent"];
+  const isIOS = /iPhone|iPad/.test(userAgent);
+  let banner;
+  if (isIOS) {
+    banner = getBanner(
       "MyAhb",
       "The myAHB Mobile App is the official mobile app by Maybank Asset Management Sdn Bhd, who is fully owned by Maybank Asset Management Group. The mobile app allows its users to safely and conveniently access and view their AHB investment portfolio all in one app on their mobile/tablet devices. The app is only applicable to Maybank AHB account holders.",
       "app-icon.png",
       "https://apple.co/47zd5Xj"
     );
-    // Send the dashboard with the smart banner
-    res.send(`
+  } else {
+    banner = getBanner(
+      "MyAhb",
+      "The myAHB Mobile App is the official mobile app by Maybank Asset Management Sdn Bhd, who is fully owned by Maybank Asset Management Group. The mobile app allows its users to safely and conveniently access and view their AHB investment portfolio all in one app on their mobile/tablet devices. The app is only applicable to Maybank AHB account holders.",
+      "app-icon.png",
+      "https://play.google.com/store/apps/details?id=com.mamsb.myahb&hl=en-MY"
+    );
+  }
+
+  // Send the dashboard with the smart banner
+  res.send(`
     <html>
     <head>
       <title>Your App Name</title>
@@ -123,7 +139,7 @@ app.get("/help", (req, res) => {
     </body>
   </html>
     `);
-  });
+});
 
 app.get("/", (req, res) => {
   res.send("Hello world");

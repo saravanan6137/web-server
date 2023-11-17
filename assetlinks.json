@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.mamsb.myahb",
+    "sha256_cert_fingerprints":
+    ["46:9C:8E:35:92:CA:26:56:67:59:78:A1:E1:BA:F0:6E:28:B1:3A:69:0E:66:2A:10:61:D6:77:C7:38:30:FA:F0"]
+  }
+}]
